@@ -2,15 +2,29 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    // 카메라 변수
+    public Transform target;
+    public float smoothSpeed = 0.125f;
+    public Vector3 offset;
 
-    // Update is called once per frame
-    void Update()
+    // 맵 범위
+    public float maxX = 20f;
+    public float minX = -2.5f;
+    public float maxY = 13f;
+    public float minY = 0.5f;
+
+    // 마지막에 동작
+    void LateUpdate()
     {
-        
+        if (target == null) return;
+
+        Vector3 desiredPosition = target.position + offset;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+
+        // 화면 이탈 방지
+        smoothedPosition.x = Mathf.Clamp(smoothedPosition.x, minX, maxX);
+        smoothedPosition.y = Mathf.Clamp(smoothedPosition.y, minY, maxY);
+
+        transform.position = new Vector3(smoothedPosition.x, smoothedPosition.y, transform.position.z);
     }
 }
