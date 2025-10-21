@@ -1,36 +1,39 @@
 using UnityEngine;
 
+// 애니메이션 통합
 public class AnimController : MonoBehaviour
 {
     private Animator anim;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Rigidbody2D rb;
+
+    // 미리 실행
+    private void Awake()
     {
         anim = GetComponent<Animator>();
-
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // IDLE
+    public void SetIDLE(bool isGround)
     {
-        
+        anim.SetBool("isGround", isGround);
     }
 
-    // 애니메이션 재생
-    private void AnimatorChange(string temp)
+    // 이동 모션
+    public void SetRun(bool isRun)
     {
-        anim.SetBool("isIDLE", false);
-        anim.SetBool("isRun", false);
-        if (temp == "isJump")
-        {
-            anim.SetTrigger(temp);
-            return;
-        }
-        if (temp == "isDash")
-        {
-            anim.SetTrigger(temp);
-            return;
-        }
-        anim.SetBool(temp, true);
+        anim.SetBool("isRun", isRun);
+    }
+
+    // Jump/Fall 모션
+    public void SetJF()
+    {
+        anim.SetFloat("isJF", rb.linearVelocity.y);
+    }
+
+    // 충돌 모션
+    public void SetHit()
+    {
+        anim.SetTrigger("isHit");
     }
 }

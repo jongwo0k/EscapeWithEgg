@@ -2704,6 +2704,7 @@ GameObject:
   - component: {fileID: 1427496781}
   - component: {fileID: 1427496780}
   - component: {fileID: 1427496782}
+  - component: {fileID: 1427496783}
   m_Layer: 0
   m_Name: FrogEnemy
   m_TagString: Enemy
@@ -2827,6 +2828,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.27504608, y: 0.197437}
   m_EdgeRadius: 0
+--- !u!95 &1427496783
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427496779}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bdd63692460149845b7fb5e8d928747f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1448981541
 GameObject:
   m_ObjectHideFlags: 0
