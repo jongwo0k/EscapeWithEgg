@@ -4,17 +4,15 @@ using UnityEngine;
 public class AnimController : MonoBehaviour
 {
     private Animator anim;
-    private Rigidbody2D rb;
 
     // 미리 실행
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
     }
 
-    // IDLE
-    public void SetIDLE(bool isGround)
+    // IDLE, Fall 종료
+    public void SetGround(bool isGround)
     {
         anim.SetBool("isGround", isGround);
     }
@@ -26,14 +24,26 @@ public class AnimController : MonoBehaviour
     }
 
     // Jump/Fall 모션
-    public void SetJF()
+    public void SetJF(float yV)
     {
-        anim.SetFloat("isJF", rb.linearVelocity.y);
+        anim.SetFloat("isJF", yV);
     }
 
     // 충돌 모션
     public void SetHit()
     {
         anim.SetTrigger("isHit");
+    }
+
+    // 획득
+    public void EggGet()
+    {
+        anim.SetTrigger("isGet");
+    }
+
+    // 슬라이딩 (씬2만)
+    public void SetSlide(bool isSlide)
+    {
+        anim.SetBool("isSlide", isSlide);
     }
 }
