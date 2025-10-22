@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -7,13 +8,12 @@ public class Player : MonoBehaviour
     public float jumpPower = 6f;
     private bool isGround;
 
-    /* 아직
+    // 캐릭터 상태 변수
     public int HP = 3;
     private int MaxHP;
+    private bool isInvincible;
 
     public GameObject Hit_Prefab;
-    public Slider HpBar;
-    */
 
     // 애니메이션
     private AnimController ac;
@@ -22,11 +22,18 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
+    // UI
+    private UI_Manager um;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         ac = GetComponent<AnimController>();
+
+        // UI 초기화
+        MaxHP = HP;
+        UI_Manager.Instance.HP_Update(HP, MaxHP);
 
         // Player 시작 위치 지정
         transform.position = new Vector3(-10f, -0.15f, 0f);
@@ -34,6 +41,17 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        ac.SetJF(rb.linearVelocity.y);
+        ac.SetGround(isGround);
+
+        // 정면 넉백
+        if (isInvincible)
+        {
+            ac.SetRun(false);
+            return;
+        }
+
+        // 방향키로 이동
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
@@ -57,9 +75,6 @@ public class Player : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
         }
-
-        ac.SetJF(rb.linearVelocity.y);
-        ac.SetGround(isGround);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -69,10 +84,18 @@ public class Player : MonoBehaviour
             isGround = true;
         }
 
+        // 체력 감소
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // 데미지 피격 함수
-            // TakeDamage();
+            TakeDamage(collision);
+        }
+
+        // Enemy 공격
+        if (collision.gameObject.CompareTag("EnemyHead"))
+        {
+            rb.linearVelocity = Vector2.zero;
+            Vector2 knockbackDirection = collision.contacts[0].normal;
+            rb.AddForce(knockbackDirection * 7f, ForceMode2D.Impulse);
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -88,14 +111,58 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Target")
         {
-            // 계란 획득 -> 보스 등장 컷씬 후 씬 이동
+            // 계란 획득 -> 보스 등장 컷씬
+
+
+            // 이후 씬 이동
+            UI_Manager.Instance.nextScene();
+        }
+
+        // Clear
+        if (collision.gameObject.tag == "End")
+        {
+            UI_Manager.Instance.GameIsClear();
         }
     }
 
-    /* 피격 (아직)
-    private void TakeDamage()
+    // 데미지 처리
+    private void TakeDamage(Collision2D collision)
     {
-        HP--;
+        if (isInvincible) return;
+        StartCoroutine(InvincibilityCoroutine(collision));
     }
-    */
+
+    // 애니메이션이 재생되는 동안은 무적 상태로 대기
+    private IEnumerator InvincibilityCoroutine(Collision2D collision)
+    {
+        isInvincible = true;
+
+        // 체력 상태 관리
+        HP--;
+        UI_Manager.Instance.HP_Update(HP, MaxHP);
+
+        // Particle
+        GameObject go = Instantiate(Hit_Prefab, transform.position, Quaternion.identity);
+        Destroy(go, 1.0f);
+        ac.SetHit();
+
+        // 충돌 시 밀려남
+        rb.linearVelocity = Vector2.zero;
+        Vector2 knockbackDirection = collision.contacts[0].normal;
+        rb.AddForce(knockbackDirection * 5f, ForceMode2D.Impulse);
+
+        // 사망
+        if (HP <= 0)
+        {
+            rb.linearVelocity = Vector2.zero;
+            ac.SetRun(false);
+            UI_Manager.Instance.GameIsOver();
+            Destroy(gameObject);
+            yield break;
+        }
+
+        // 중복 충돌 방지 (잠시 무적)
+        yield return new WaitForSeconds(0.7f); // 애니메이션 재생시간과 통일(0.7f)
+        isInvincible = false;
+    }
 }
