@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public int HP = 3;
     private int MaxHP;
     private bool isInvincible;
+    bool isOver = false;
 
     public GameObject Hit_Prefab;
 
@@ -41,6 +42,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (isOver)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         ac.SetJF(rb.linearVelocity.y);
         ac.SetGround(isGround);
 
@@ -123,6 +130,12 @@ public class Player : MonoBehaviour
         {
             UI_Manager.Instance.GameIsClear();
         }
+
+        // 추락
+        if (collision.gameObject.tag == "DeadZone")
+        {
+            Die();
+        }
     }
 
     // 데미지 처리
@@ -154,15 +167,30 @@ public class Player : MonoBehaviour
         // 사망
         if (HP <= 0)
         {
-            rb.linearVelocity = Vector2.zero;
-            ac.SetRun(false);
-            UI_Manager.Instance.GameIsOver();
-            Destroy(gameObject);
+            Die();
             yield break;
         }
 
         // 중복 충돌 방지 (잠시 무적)
         yield return new WaitForSeconds(0.7f); // 애니메이션 재생시간과 통일(0.7f)
         isInvincible = false;
+    }
+
+    // 사망
+    public void Die()
+    {
+        if (isOver) return;
+        isOver = true;
+
+        // 추락, 충돌 공용
+        HP = 0;
+        UI_Manager.Instance.HP_Update(HP, MaxHP);
+
+        // 정지
+        rb.linearVelocity = Vector2.zero;
+        ac.SetRun(false);
+
+        UI_Manager.Instance.GameIsOver();
+        Destroy(gameObject);
     }
 }

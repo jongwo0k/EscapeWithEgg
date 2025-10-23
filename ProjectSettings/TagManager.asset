@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - EnemyHead
   - Target
+  - DeadZone
   layers:
   - Default
   - TransparentFX
