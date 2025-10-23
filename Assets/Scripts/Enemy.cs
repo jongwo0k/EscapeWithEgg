@@ -1,65 +1,67 @@
-/*using UnityEngine;
+using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     // 이동 변수
-    public int HP = 1;
-    public float speed = 5f;
-    private int moveDirection = 1;
+    [SerializeField] protected int HP = 1;
+    protected bool isDead = false;
+    protected int moveDirection = 1;
 
-    // 애니메이션, 충돌
-    private AnimController ac;
-    private SpriteRenderer sr;
-    private Collider2D col;
-    private bool isDead = false;
+    [SerializeField] protected bool startDirection = false;
+    [SerializeField] protected float speed = 3f;
+    [SerializeField] protected float minX;
+    [SerializeField] protected float maxX;
 
-    void Start()
+    protected Animator anim;
+    protected Collider2D col;
+    protected Rigidbody2D rb;
+    protected SpriteRenderer sr;
+
+    protected virtual void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
-        ac = GetComponent<AnimController>();
-    }
+        sr = GetComponent<SpriteRenderer>();
 
-    void Update()
-    {
-        // 밟힘
-        if (isDead) return;
-
-        // 순찰
-        transform.Translate(Vector2.right * speed * moveDirection * Time.deltaTime); // 프레임 상관없이 속도 고정
-
-        // 방향 전환
-        if (transform.position.x >= maxX)
+        // 방향 통일
+        if (startDirection)
         {
             moveDirection = -1;
-            sr.flipX = true;
+            sr.flipX = false;
         }
-        else if (transform.position.x <= minX)
+        else
         {
             moveDirection = 1;
             sr.flipX = false;
-
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    // 밟힘
+    public virtual void EnemyHit()
     {
+        HP--;
 
-        if (collision.gameObject.CompareTag("Player"))
+        if (HP > 0)
         {
-            // 부딪히면 데미지를 줌, 머리를 밟히면 사망
-            if (collision.contacts[0].normal.y < -0.7f)
-            {
-                isDead = true;
-                col.enabled = false; // 사망 모션 중 충돌 방지
-                anim.SetTrigger("isDie");
-            }
-            else
-            {
-                collision.gameObject.GetComponent<Player>().CollisionOb();
-            }
+            anim.SetTrigger("isBear"); // Bear만 있음 (주의)
         }
 
+        else
+        {
+            anim.SetTrigger("isHit");
+
+            isDead = true;
+            rb.linearVelocity = Vector2.zero;
+            col.enabled = false;
+
+            // 머리 부분 emptyObject
+            Collider2D Enemy = transform.Find("EnemyHead")?.GetComponent<Collider2D>();
+            if (Enemy != null)
+            {
+                Enemy.enabled = false;
+            }
+        }
     }
 
     // 사망 모션 후 파괴
@@ -67,5 +69,18 @@ public class Enemy : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    // 뱡향 전환
+    protected void Turn(int direction)
+    {
+        moveDirection = direction;
+        if (startDirection)
+        {
+            sr.flipX = (moveDirection == 1);
+        }
+        else
+        {
+            sr.flipX = (moveDirection == -1);
+        }
+    }
 }
-*/

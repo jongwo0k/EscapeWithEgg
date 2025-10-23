@@ -1708,7 +1708,7 @@ GameObject:
   - component: {fileID: 535750017}
   - component: {fileID: 535750018}
   m_Layer: 0
-  m_Name: Head
+  m_Name: EnemyHead
   m_TagString: EnemyHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1786,7 +1786,7 @@ GameObject:
   - component: {fileID: 578270572}
   - component: {fileID: 578270573}
   m_Layer: 0
-  m_Name: Head
+  m_Name: EnemyHead
   m_TagString: EnemyHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2560,6 +2560,8 @@ GameObject:
   - component: {fileID: 907264901}
   - component: {fileID: 907264903}
   - component: {fileID: 907264904}
+  - component: {fileID: 907264907}
+  - component: {fileID: 907264906}
   m_Layer: 0
   m_Name: AntEnemy
   m_TagString: Enemy
@@ -2631,7 +2633,7 @@ Transform:
   m_GameObject: {fileID: 907264900}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.1, y: -2.21, z: 0}
+  m_LocalPosition: {x: 9.919, y: -2.21, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2706,6 +2708,50 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &907264906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907264900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede57476431d6c24ab07653d17ad81c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 1
+  speed: 3
+  minX: 8.8
+  maxX: 11.1
+  startDirection: 1
+--- !u!50 &907264907
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907264900}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &911632420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3075,6 +3121,8 @@ GameObject:
   - component: {fileID: 965839704}
   - component: {fileID: 965839706}
   - component: {fileID: 965839707}
+  - component: {fileID: 965839710}
+  - component: {fileID: 965839711}
   m_Layer: 0
   m_Name: BettleEnemy
   m_TagString: Enemy
@@ -3146,7 +3194,7 @@ Transform:
   m_GameObject: {fileID: 965839703}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.14, y: 10.77, z: 0}
+  m_LocalPosition: {x: 23.05, y: 10.77, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3221,6 +3269,50 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &965839710
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965839703}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &965839711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965839703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37fd581c5a587648be071b625e8c567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 1
+  speed: 5
+  minX: 14
+  maxX: 25
+  startDirection: 1
 --- !u!1 &1003492360
 GameObject:
   m_ObjectHideFlags: 0
@@ -3308,8 +3400,10 @@ GameObject:
   - component: {fileID: 1010651105}
   - component: {fileID: 1010651107}
   - component: {fileID: 1010651108}
+  - component: {fileID: 1010651111}
+  - component: {fileID: 1010651112}
   m_Layer: 0
-  m_Name: BearGuardian
+  m_Name: BearEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3378,8 +3472,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010651104}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.78, y: 1.61, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 27.65, y: 1.6100001, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3454,6 +3548,50 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &1010651111
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010651104}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &1010651112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010651104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede57476431d6c24ab07653d17ad81c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 3
+  speed: 5
+  minX: 25
+  maxX: 29
+  startDirection: 0
 --- !u!1 &1024838249
 GameObject:
   m_ObjectHideFlags: 0
@@ -3658,7 +3796,7 @@ GameObject:
   - component: {fileID: 1105706802}
   - component: {fileID: 1105706803}
   m_Layer: 0
-  m_Name: Head
+  m_Name: EnemyHead
   m_TagString: EnemyHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3751,7 +3889,7 @@ Transform:
   m_GameObject: {fileID: 1127348936}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 30.78, y: 6.71, z: 0}
+  m_LocalPosition: {x: 30.8, y: 6.71, z: 0}
   m_LocalScale: {x: 1, y: 23.642412, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4551,6 +4689,7 @@ GameObject:
   - component: {fileID: 1427496780}
   - component: {fileID: 1427496782}
   - component: {fileID: 1427496783}
+  - component: {fileID: 1427496784}
   m_Layer: 0
   m_Name: FrogEnemy
   m_TagString: Enemy
@@ -4697,6 +4836,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &1427496784
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427496779}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1448981541
 GameObject:
   m_ObjectHideFlags: 0
@@ -4709,9 +4875,9 @@ GameObject:
   - component: {fileID: 1448981544}
   - component: {fileID: 1448981543}
   - component: {fileID: 1448981547}
-  - component: {fileID: 1448981546}
+  - component: {fileID: 1448981549}
   - component: {fileID: 1448981548}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tilemap
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -6729,33 +6895,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!50 &1448981546
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448981541}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!19719996 &1448981547
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -6839,6 +6978,33 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 1448981541}
+--- !u!50 &1448981549
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448981541}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1454561126
 GameObject:
   m_ObjectHideFlags: 0
@@ -7581,7 +7747,7 @@ GameObject:
   - component: {fileID: 2122755054}
   - component: {fileID: 2122755055}
   m_Layer: 0
-  m_Name: Head
+  m_Name: EnemyHead
   m_TagString: EnemyHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7663,6 +7829,7 @@ SceneRoots:
   - {fileID: 1427496781}
   - {fileID: 907264902}
   - {fileID: 1010651106}
+  - {fileID: 965839705}
   - {fileID: 911632422}
   - {fileID: 278822756}
   - {fileID: 1490702286}
@@ -7673,7 +7840,6 @@ SceneRoots:
   - {fileID: 305360341}
   - {fileID: 647642577}
   - {fileID: 894435215}
-  - {fileID: 965839705}
   - {fileID: 534079768}
   - {fileID: 1024838251}
   - {fileID: 462439816}

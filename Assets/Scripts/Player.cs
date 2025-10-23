@@ -86,37 +86,45 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Jump
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGround = true;
         }
 
-        // Ã¼·Â °¨¼Ò
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            TakeDamage(collision);
-        }
-
         // Enemy °ø°Ý
-        if (collision.gameObject.CompareTag("EnemyHead"))
+        if (collision.collider.CompareTag("EnemyHead"))
         {
             rb.linearVelocity = Vector2.zero;
             Vector2 knockbackDirection = collision.contacts[0].normal;
             rb.AddForce(knockbackDirection * 7f, ForceMode2D.Impulse);
+
+            Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.EnemyHit();
+            }
+        }
+
+        // Ã¼·Â °¨¼Ò
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            TakeDamage(collision);
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            // ¶¥¿¡¼­ ¶³¾îÁ³À» ¶§
+            // ¶¥¿¡¼­ ¶³¾îÁ³À» ¶§ (Jump)
             isGround = false;
         }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Target")
+        if (collision.gameObject.tag == "Target") // Egg
         {
             // °è¶õ È¹µæ -> º¸½º µîÀå ÄÆ¾À
 
@@ -164,7 +172,6 @@ public class Player : MonoBehaviour
         Vector2 knockbackDirection = collision.contacts[0].normal;
         rb.AddForce(knockbackDirection * 5f, ForceMode2D.Impulse);
 
-        // »ç¸Á
         if (HP <= 0)
         {
             Die();
