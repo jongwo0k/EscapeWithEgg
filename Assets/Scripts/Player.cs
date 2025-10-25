@@ -6,15 +6,21 @@ public class Player : MonoBehaviour
     // 캐릭터 이동 변수
     public float speed = 3f;
     public float jumpPower = 6f;
-    private bool isGround;
+    bool isGround;
 
     // 캐릭터 상태 변수
     public int HP = 3;
     private int MaxHP;
     private bool isInvincible;
     bool isOver = false;
+    bool getEgg = false;
 
-    public GameObject Hit_Prefab;
+    // Cutscene
+    [SerializeField] private CameraController CameraController;
+    [SerializeField] private GameObject boss;
+    [SerializeField] private Vector3 bossScale = new Vector3(5f, 5f, 5f);
+    private float cutsceneDuration = 4f;
+    private float cameraDuration = 1f;
 
     // 애니메이션
     private AnimController ac;
@@ -24,7 +30,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer sr;
 
     // UI
-    private UI_Manager um;
+    public GameObject Hit_Prefab;
 
     void Start()
     {
@@ -58,29 +64,32 @@ public class Player : MonoBehaviour
             return;
         }
 
-        // 방향키로 이동
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (!getEgg)
         {
-            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
-            sr.flipX = false;
-            ac.SetRun(isGround);
+            // 방향키로 이동
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+                sr.flipX = false;
+                ac.SetRun(isGround);
 
-        }
-        else if(Input.GetKey(KeyCode.LeftArrow))
-        {
-            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
-            sr.flipX = true;
-            ac.SetRun(isGround);
-        }
-        else
-        {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-            ac.SetRun(false);
-        }
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+                sr.flipX = true;
+                ac.SetRun(isGround);
+            }
+            else
+            {
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+                ac.SetRun(false);
+            }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGround)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+            if (Input.GetKeyDown(KeyCode.Space) && isGround)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+            }
         }
     }
 
@@ -92,9 +101,10 @@ public class Player : MonoBehaviour
             isGround = true;
         }
 
-        // Enemy 공격
+        // 밞아서 적을 공격
         if (collision.collider.CompareTag("EnemyHead"))
         {
+            // 튀어 오름
             rb.linearVelocity = Vector2.zero;
             Vector2 knockbackDirection = collision.contacts[0].normal;
             rb.AddForce(knockbackDirection * 7f, ForceMode2D.Impulse);
@@ -124,27 +134,78 @@ public class Player : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Target") // Egg
+        if (collision.gameObject.CompareTag("Target")) // Egg
         {
-            // 계란 획득 -> 보스 등장 컷씬
-
-
-            // 이후 씬 이동
-            UI_Manager.Instance.nextScene();
+            // 보스 등장씬 재생 후 스테이지 이동
+            rb.linearVelocity = Vector2.zero;
+            getEgg = true;
+            // (획득 효과 추가?)
+            StartCoroutine(StartBossCutscene());
         }
 
         // Clear
-        if (collision.gameObject.tag == "End")
+        if (collision.gameObject.CompareTag("End"))
         {
             UI_Manager.Instance.GameIsClear();
         }
 
         // 추락
-        if (collision.gameObject.tag == "DeadZone")
+        if (collision.gameObject.CompareTag("DeadZone"))
         {
             Die();
         }
     }
+
+    // 컷신 코루틴
+    IEnumerator StartBossCutscene()
+    {
+        // Player에서 Boss로 시점 전환
+        if (CameraController != null)
+        {
+            CameraController.enabled = false;
+        }
+        
+        // 크기, 위치 조절
+        Camera mainCamera = Camera.main;
+        Vector3 playerPositionAtEggGet = transform.position;
+        Vector3 bossStartPosition = boss.transform.position;
+        Vector3 bossStartScale = boss.transform.localScale;
+        Vector3 cameraStartPosition = mainCamera.transform.position;
+        Vector3 cameraEndPosition = new Vector3(bossStartPosition.x, bossStartPosition.y, cameraStartPosition.z);
+
+        // 보스 시점에서 Player에게 날아감
+        float passedTime = 0f;
+        while (passedTime < cameraDuration)
+        {
+            mainCamera.transform.position = Vector3.Lerp(cameraStartPosition, cameraEndPosition, passedTime / cameraDuration);
+            passedTime += Time.deltaTime;
+            yield return null;
+        }
+        mainCamera.transform.position = cameraEndPosition;
+
+        // 카메라 컨트롤러의 타겟을 보스로 변경
+        if (CameraController != null)
+        {
+            CameraController.target = boss.transform;
+            CameraController.enabled = true;
+        }
+
+        // 다가가면서 커짐
+        boss.SetActive(true);
+        float bossAnimDuration = cutsceneDuration - cameraDuration;
+        passedTime = 0f;
+        while (passedTime < bossAnimDuration)
+        {
+            float t = passedTime / bossAnimDuration;
+            boss.transform.localScale = Vector3.Lerp(bossStartScale, bossScale, t);
+            boss.transform.position = Vector3.Lerp(bossStartPosition, playerPositionAtEggGet, t);
+            passedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // 도착하면 다음 씬으로
+        UI_Manager.Instance.nextScene();
+}
 
     // 데미지 처리
     private void TakeDamage(Collision2D collision)

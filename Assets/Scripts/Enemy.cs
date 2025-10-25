@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
 
         if (HP > 0)
         {
-            anim.SetTrigger("isBear"); // Bear만 있음 (주의)
+            anim.SetTrigger("isBear"); // Bear만 체력이 높음
         }
 
         else

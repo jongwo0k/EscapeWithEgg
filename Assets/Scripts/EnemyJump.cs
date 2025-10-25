@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class EnemyFrog : Enemy
+public class EnemyJump : Enemy
 {
     // jumpPower는 speed 재활용
     [SerializeField] private float jumpCooltime = 2f;
@@ -53,10 +53,7 @@ public class EnemyFrog : Enemy
     {
         if (!isDead && collision.gameObject.CompareTag("Ground"))
         {
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                isGround = true;
-            }
+            isGround = true;
         }
     } 
 }
