@@ -31,7 +31,7 @@ public class Player2 : MonoBehaviour
         // UI 초기화
 
         // Player 시작 위치 지정
-        transform.position = new Vector3(-1f, 0f, 0f);
+        transform.position = new Vector3(-1f, -0.199f, 0f);
     }
 
     void Update()
