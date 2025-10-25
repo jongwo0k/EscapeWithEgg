@@ -11,6 +11,7 @@ TagManager:
   - Target
   - DeadZone
   - End
+  - Obstacle
   layers:
   - Default
   - TransparentFX

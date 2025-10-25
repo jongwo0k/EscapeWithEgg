@@ -143,12 +143,6 @@ public class Player : MonoBehaviour
             StartCoroutine(StartBossCutscene());
         }
 
-        // Clear
-        if (collision.gameObject.CompareTag("End"))
-        {
-            UI_Manager.Instance.GameIsClear();
-        }
-
         // 추락
         if (collision.gameObject.CompareTag("DeadZone"))
         {
@@ -256,8 +250,6 @@ public class Player : MonoBehaviour
 
         // 정지
         rb.linearVelocity = Vector2.zero;
-        ac.SetRun(false);
-
         UI_Manager.Instance.GameIsOver();
         Destroy(gameObject);
     }
