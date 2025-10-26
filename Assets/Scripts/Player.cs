@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     public int HP = 3;
     private int MaxHP;
     private bool isInvincible;
-    bool isOver = false;
     bool getEgg = false;
 
     // Cutscene
@@ -48,7 +47,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (isOver)
+        if (UI_Manager.Instance.isOver)
         {
             rb.linearVelocity = Vector2.zero;
             return;
@@ -241,8 +240,8 @@ public class Player : MonoBehaviour
     // 사망
     public void Die()
     {
-        if (isOver) return;
-        isOver = true;
+        if (UI_Manager.Instance.isOver) return;
+        UI_Manager.Instance.isOver = true;
 
         // 추락, 충돌 공용
         HP = 0;

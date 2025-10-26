@@ -29,6 +29,7 @@ public class Player2 : MonoBehaviour
         ac = GetComponent<AnimController>();
 
         // UI 초기화
+        UI_Manager.Instance.StartTimer();
 
         // Player 시작 위치 지정
         transform.position = new Vector3(-1f, -0.199f, 0f);
@@ -45,6 +46,7 @@ public class Player2 : MonoBehaviour
         ac.SetJF(rb.linearVelocity.y);
         ac.SetGround(isGround);
 
+        // 더블 점프
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
@@ -64,7 +66,8 @@ public class Player2 : MonoBehaviour
         // 충돌
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            Die();
+            Debug.Log("Die");
+            Die();// 현재 테스트 중
         }
     }
 
