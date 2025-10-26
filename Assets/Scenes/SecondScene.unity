@@ -287,6 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77f7d27bb8b00164a80bc9e55f2a47d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOver: 0
   HP_Text: {fileID: 2137553784}
   slider: {fileID: 0}
   Time_Text: {fileID: 2137553784}
@@ -1283,7 +1284,7 @@ MonoBehaviour:
   moveSpeed: 3
   maxSpeed: 12
   speedIncreaseRate: 0.05
-  spawnInterval: 2
+  spawnInterval: 5
   startTile: {fileID: 6981925900306311439, guid: f374c15e91a53d145b85be88ca476b3b, type: 3}
   Tiles:
   - {fileID: 1485962469818474796, guid: 00c30ac12da47d54e978a34bbe2a3116, type: 3}

@@ -240,8 +240,8 @@ public class Player : MonoBehaviour
     // 사망
     public void Die()
     {
-        if (UI_Manager.Instance.isOver) return;
-        UI_Manager.Instance.isOver = true;
+        // if (UI_Manager.Instance.isOver) return;
+        // UI_Manager.Instance.isOver = true;
 
         // 추락, 충돌 공용
         HP = 0;

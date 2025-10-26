@@ -8,7 +8,8 @@ public class MapSpawner : MonoBehaviour
     public float moveSpeed = 5f;
     public float maxSpeed = 12f;
     public float speedIncreaseRate = 0.05f;
-    public float spawnInterval = 1f;
+    public float spawnInterval = 5f;
+    private float firstInterval = 2f;
     private float nextSpawnX = 0;
     private bool finalSpawned = false;
 
@@ -20,7 +21,7 @@ public class MapSpawner : MonoBehaviour
     void Start()
     {
         SpawnTile(startTile);
-        InvokeRepeating("SpawnNextTile", spawnInterval, spawnInterval);
+        InvokeRepeating("SpawnNextTile", firstInterval, spawnInterval);
     }
 
     void Update()

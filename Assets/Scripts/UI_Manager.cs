@@ -93,6 +93,7 @@ public class UI_Manager : MonoBehaviour
     // GameOver
     public void GameIsOver()
     {
+        isOver = true;
         isTimerRunning = false;
         gameOver.SetActive(true);
     }
